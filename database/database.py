@@ -37,7 +37,7 @@ class User(BaseModel):
     email = CharField()
     password_hash = CharField()
     phone = CharField()
-    role = ForeignKeyField(Role, field='id', backref='users')
+    role = ForeignKeyField(Role, field='id', backref='user')
     created_at = TimestampField()
     subscription_on = BooleanField()
     subscription_id = IntegerField(null=True)
