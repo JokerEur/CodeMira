@@ -9,10 +9,13 @@ def index(request):
     return JsonResponse({'headers': "1"})
 
 
-# def get_item(request):
-#     q = request.GET['id']
-#     # ans = функция Кирилла (q)
-#     return JsonResponse(ans, safe=False)
+def get_item(request):
+    q = request.GET['id']
+    query = Products.raw("SELECT products.name, products.price, productcategory.name, products.description, user.last_name, products.origin, products.produced_at, products.expiration_date, products.rating, products.license, products.certificate, products.picture FROM products " +
+    "LEFT JOIN productcategory on products.category_id = productcategory.id " +
+    "left join seller on products.seller_id = seller.id " +
+    "left join user on seller.user_id = user.id WHERE products.id = ?", id)
+    return JsonResponse(query, safe=False)
 #
 # def get_item_comment(request):
 #     q = request.GET['id']
@@ -22,6 +25,12 @@ def index(request):
 #         res.append(ans)
 #     return res
 
+def auth(request):
+    a = request.GET
+    if a == User.email:
+        return JsonResponse({'statuss' : 'user', 'responce' :  True}, safe=False)
+    else:
+        return JsonResponse({'statuss': '', 'responce': False}, safe=False)
 
 def catalog_all(request):
     res = []
@@ -30,7 +39,7 @@ def catalog_all(request):
         res.append({'name' : q.name})
     print(res)
 
-    return res
+    return JsonResponse(res, safe=False)
 
 
 def catalog_names(request):
