@@ -1,8 +1,7 @@
 from peewee import *
-from time import sleep
 
+db = SqliteDatabase('db.sqlite3')
 
-db = SqliteDatabase('../db.sqlite3')
 
 class BaseModel(db.Model):
     class Meta:
@@ -74,10 +73,11 @@ class Products(BaseModel):
     origin = CharField(null=True)
     produced_at = TimestampField()
     expiration_date = TimestampField(null=True)
-    rating = FloatField()	# Select from Reting by ProductId
+    rating = FloatField()  # Select from Reting by ProductId
     license = CharField(null=True)
     certificate = CharField(null=True)
     picture = TextField(null=True)
+
 
 class Raiting(BaseModel):
     id = AutoField(primary_key=True)
@@ -85,6 +85,7 @@ class Raiting(BaseModel):
     rate = IntegerField()
     comment = CharField()
     author = ForeignKeyField(User, field='id', backref='raiting')
+
 
 class ItemsList(BaseModel):
     id = AutoField()
@@ -152,6 +153,7 @@ class Order(BaseModel):
     delivery_type = ForeignKeyField(DeliveryType, field='id', backref='orders', null=True)
     delivery_status = ForeignKeyField(DeliveryStatus, field='id', backref='orders', null=True)
     closed = BooleanField()
+
 
 db.create_tables([
     Role, BankRequisition, SubscriptionType, Okved, User, Seller, OkvedList,

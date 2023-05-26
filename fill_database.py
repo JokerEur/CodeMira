@@ -1,4 +1,3 @@
-from peewee import *
 from database import *
 from datetime import datetime
 
