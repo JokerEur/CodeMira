@@ -1,4 +1,4 @@
-branch for main!
+final code in main!
 
 -- migrations
 python manage.py migrate
