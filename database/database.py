@@ -1,8 +1,8 @@
 from peewee import *
 from time import sleep
 
-db = SqliteDatabase('../db.sqlite3')
 
+db = SqliteDatabase('../db.sqlite3')
 
 class BaseModel(db.Model):
     class Meta:
@@ -10,28 +10,28 @@ class BaseModel(db.Model):
 
 
 class Role(BaseModel):
-    id = IntegerField(primary_key=True)
+    id = AutoField(primary_key=True)
     role_name = CharField()
 
 
 class BankRequisition(BaseModel):
-    id = IntegerField(primary_key=True)
+    id = AutoField(primary_key=True)
     card_number = CharField()
 
 
 class SubscriptionType(BaseModel):
-    id = IntegerField(primary_key=True)
+    id = AutoField(primary_key=True)
     type = CharField()
 
 
 class Okved(BaseModel):
-    id = IntegerField(primary_key=True)
+    id = AutoField(primary_key=True)
     code = IntegerField()
     name = CharField()
 
 
 class User(BaseModel):
-    id = IntegerField(primary_key=True)
+    id = AutoField(primary_key=True)
     first_name = CharField()
     last_name = CharField()
     email = CharField()
@@ -45,7 +45,7 @@ class User(BaseModel):
 
 
 class Seller(BaseModel):
-    id = IntegerField(primary_key=True)
+    id = AutoField(primary_key=True)
     user_id = ForeignKeyField(User, field='id', backref='sellers')
     card_number = ForeignKeyField(BankRequisition, field='id', backref='sellers')
     last_order = IntegerField(null=True)
@@ -54,18 +54,18 @@ class Seller(BaseModel):
 
 
 class OkvedList(BaseModel):
-    id = IntegerField()
+    id = AutoField()
     okved = ForeignKeyField(Okved, field='id', backref='okved_lists')
     user_id = ForeignKeyField(User, field='id', backref='okved_lists')
 
 
 class ProductCategory(BaseModel):
-    id = IntegerField(primary_key=True)
+    id = AutoField(primary_key=True)
     name = CharField()
 
 
 class Products(BaseModel):
-    id = IntegerField(primary_key=True)
+    id = AutoField(primary_key=True)
     name = CharField()
     price = FloatField()
     category = ForeignKeyField(ProductCategory, field='id', backref='products')
@@ -80,44 +80,44 @@ class Products(BaseModel):
     picture = TextField(null=True)
 
 class Raiting(BaseModel):
-    id = IntegerField(primary_key=True)
+    id = AutoField(primary_key=True)
     product_id = ForeignKeyField(Products, field='id', backref='raiting')
     rate = IntegerField()
     comment = CharField()
     author = ForeignKeyField(User, field='id', backref='raiting')
 
 class ItemsList(BaseModel):
-    id = IntegerField()
+    id = AutoField()
     product = ForeignKeyField(Products, field='id', backref='items_lists')
     user_id = ForeignKeyField(User, field='id', backref='items_lists')
 
 
 class StarredProduct(BaseModel):
-    id = IntegerField()
+    id = AutoField()
     product = ForeignKeyField(Products, field='id', backref='starred_products')
     user_id = ForeignKeyField(User, field='id', backref='starred_products')
 
 
 class Chat(BaseModel):
-    id = IntegerField(primary_key=True)
+    id = AutoField(primary_key=True)
     users_first = ForeignKeyField(User, field='id', backref='chats_first')
     users_second = ForeignKeyField(User, field='id', backref='chats_second')
 
 
 class Message(BaseModel):
-    id = IntegerField()
+    id = AutoField()
     chat = ForeignKeyField(Chat, field='id', backref='messages')
     sender = ForeignKeyField(User, field='id', backref='messages')
     time = TimestampField()
 
 
 class DeliveryType(BaseModel):
-    id = IntegerField(primary_key=True)
+    id = AutoField(primary_key=True)
     type = CharField()
 
 
 class Subscription(BaseModel):
-    id = IntegerField(primary_key=True)
+    id = AutoField(primary_key=True)
     user_id = ForeignKeyField(User, field='id', backref='subscriptions')
     item = TextField()
     count = IntegerField()
@@ -128,24 +128,24 @@ class Subscription(BaseModel):
 
 
 class Cart(BaseModel):
-    id = IntegerField(primary_key=True)
+    id = AutoField(primary_key=True)
     user_id = ForeignKeyField(User, field='id', backref='carts')
     total_price = FloatField()
     seller = ForeignKeyField(Seller, field='id', backref='carts')
 
 
 class OrderStatus(BaseModel):
-    id = IntegerField(primary_key=True)
+    id = AutoField(primary_key=True)
     status = CharField()
 
 
 class DeliveryStatus(BaseModel):
-    id = IntegerField(primary_key=True)
+    id = AutoField(primary_key=True)
     status = CharField()
 
 
 class Order(BaseModel):
-    id = IntegerField(primary_key=True)
+    id = AutoField(primary_key=True)
     user_id = ForeignKeyField(User, field='id', backref='orders')
     cart = ForeignKeyField(Cart, field='id', backref='orders')
     status = ForeignKeyField(OrderStatus, field='id', backref='orders', null=True)
