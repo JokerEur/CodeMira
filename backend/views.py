@@ -24,10 +24,13 @@ def index(request):
 
 
 def catalog_all(request):
-    print(User.select())
-    user_count = User.select().count()
-    print(user_count)
-    return JsonResponse({}, safe=False)
+    res = []
+    query = ProductCategory.select()
+    for q in query:
+        res.append({'name' : q.name})
+    print(res)
+
+    return res
 
 
 def catalog_names(request):
