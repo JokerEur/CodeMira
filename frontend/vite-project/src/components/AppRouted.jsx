@@ -1,64 +1,61 @@
-import React, { Suspense, useEffect , useState, } from "react";
+import React, { useEffect, useState } from "react";
 import '../App.css';
-import { Routes, Route, Navigate, redirect } from 'react-router-dom';
-import { privateRoutes, publicRoutes, farmRoutes, adminRoutes } from '../router/routes';
-
+import { Routes, Route, Navigate } from 'react-router-dom';
+import { privateRoutes, farmRoutes, adminRoutes } from '../router/routes';
+import axios from 'axios';
 import Home from '../pages/Home.jsx'
 import Auth from '../pages/Auth.jsx'
 import Object from "../pages/Object";
 import Account from '../pages/user/Account';
 
 const AppRouted = () => {
-    const [auth, getAuth] = useState([])
-
-    useEffect(() => {
-        fetchAuth()
-    }, [])
+  const [user, setUser] = useState({ isAuth: false, role: '', id: '', chat: '', obj: '', trash: '' });
 
 
-    const fetchAuth = () => {
-      fetch('http://127.0.0.1:8000/auth')
-          .then((res) =>
-              res.json())
+  useEffect(() => {
+    fetchAuth();
+  }, []);
 
-          .then((response) => {
-              console.log(response);
-              getAuth(response);
-          })
+ const fetchAuth = async () => {
+  try {
+    const response = await axios.get('http://localhost:8000/auth');
+    setUser({ ...response.data, isAuth: true }); // Update the user state with the isAuth property
+  } catch (error) {
+    console.log(error);
+  }
+};
 
+  let routesToRender;
+  if (user.role === "3") {
+    routesToRender = adminRoutes.map(({ path, Component }) => (
+        <><Route key={path} path={path} element={<Component user={user} />} exact={true} />
+          {console.log("!!!")}
+        </>
+
+
+    ));
+  } else if (user.role === "2") {
+    routesToRender = farmRoutes.map(({ path, Component }) => (
+      <><Route key={path} path={path} element={<Component user={user} />} exact={true} />
+          {console.log("!!")}
+        </>
+    ));
+  } else {
+    routesToRender = privateRoutes.map(({ path, Component }) => (
+      <><Route key={path} path={path} element={<Component user={user} />} exact={true} />
+          {console.log("!")}
+        </>
+    ));
   }
 
-let routesToRender;
-if (auth.statuss === "admin") {
-    routesToRender = adminRoutes.map(({ path, Component }) => (
-        <Route key={path} path={path} element={Component} exact={true} />
-    ))
-} else if (auth.statuss === "farm") {
-    routesToRender = farmRoutes.map(({ path, Component }) => (
-        <Route key={path} path={path} element={Component} exact={true} />
-    ))
-} else {
-    routesToRender = privateRoutes.map(({ path, Component }) => (
-        <Route key={path} path={path} element={Component} exact={true} />
-    ))
-}
 
-    return auth.responce ? (
-        
-        <Routes>
-        {console.log("!!")}
-        {routesToRender}
-        <Route path="*" element={<Navigate to="/" />}/>
-        </Routes>
-    ) 
-    : 
-    (
-        <Routes>
-                <Route path='/auth' element={<Auth/>} />    
-                <Route path='*' element={<Navigate to="/auth" />} />
-            
-        </Routes>
-    );
+  return (
+    <Routes>
+      {console.log("?")}
+      {routesToRender}
+      <Route path="*" element={<Navigate to="/" user={user} />} />
+    </Routes>
+  );
 };
 
 export default AppRouted;

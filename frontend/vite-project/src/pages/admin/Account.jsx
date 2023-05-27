@@ -11,7 +11,7 @@ import Table from 'react-bootstrap/Table';
 
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
-function AccountAdmin() {
+function AccountAdmin(props) {
 
   return (
         
