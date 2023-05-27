@@ -21,37 +21,58 @@ const slideLeft = () => {
     slider.scrollLeft = slider.scrollLeft + 500;
   };
 
-function Home() {
+function Home(props) {
+    const { id:user_id } = props.user;
+const [mit, getMit] = useState([])
 
+  useEffect(() => {
+      fetchMit()
+  }, [])
+
+
+  const fetchMit = () => {
+      fetch('http://127.0.0.1:8000/all_products')
+          .then((res) =>
+              res.json())
+
+          .then((response) => {
+              console.log(response);
+              getMit(response);
+          })
+
+  }
   return (
         
     <div>
        <Nav className="z-30"/>
 
     
-
+{console.log(user_id)}
 
 <div className='relative mt-5 flex items-center'>
         
-        <div
-            className=' whitespace-pre w-[300px] inline-block mt-1 p-2 cursor-pointer hover:scale-105 ease-in-out duration-300 rounded-2xl'    
+
+            {mit.map((item) => (
+ <div
+            className=' whitespace-pre w-[300px] inline-block mt-1 p-2 cursor-pointer hover:scale-105 ease-in-out duration-300 rounded-2xl'
         >
             <Card
                 href={'/object/'+ 1}
-                imgSrc="https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Zunge_raus.JPG/800px-Zunge_raus.JPG"
-                
+                imgSrc={item.picture}
+
             >
-                <a href={'/object/'+ 1}>
+                <a href={'/object/'+ item.id}>
                     <h5 className="text-xs whitespace-pre-wrap font-semibold tracking-tight text-gray-900 dark:text-white">
                     <p>
-                        Apple Watch Series 7 GPS, Aluminium Case, Starlight Sport
+                        {item.name}
                     </p>
+                        {item.description}
                     </h5>
                 </a>
 
                 <div className="flex items-center justify-between">
                     <span className="text-sm font-bold text-gray-900 dark:text-white">
-                    $599
+                    {item.price} ₽
                     </span>
                     <a
                     className="rounded-lg bg-cyan-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-cyan-800 focus:outline-none focus:ring-4 focus:ring-cyan-300 dark:bg-cyan-600 dark:hover:bg-cyan-700 dark:focus:ring-cyan-800"
@@ -64,219 +85,11 @@ function Home() {
                 </div>
             </Card>
         </div>
-        <div
-            className=' whitespace-pre w-[300px] inline-block mt-1 p-2 cursor-pointer hover:scale-105 ease-in-out duration-300 rounded-2xl'    
-        >
-            <Card
-                imgSrc="https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Zunge_raus.JPG/800px-Zunge_raus.JPG"
-                className=""
-            >
-                <a href="#">
-                    <h5 className="text-xs whitespace-pre-wrap font-semibold tracking-tight text-gray-900 dark:text-white">
-                    <p>
-                        Apple Watch Series 7 GPS, Aluminium Case, Starlight Sport
-                    </p>
-                    </h5>
-                </a>
+          ))}
 
-                <div className="flex items-center justify-between">
-                    <span className="text-sm font-bold text-gray-900 dark:text-white">
-                    $599
-                    </span>
-                    <a
-                    className="rounded-lg bg-cyan-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-cyan-800 focus:outline-none focus:ring-4 focus:ring-cyan-300 dark:bg-cyan-600 dark:hover:bg-cyan-700 dark:focus:ring-cyan-800"
-                    href="#"
-                    >
-                    <p>
-                        Add to cart
-                    </p>
-                    </a>
-                </div>
-            </Card>
-        </div>
-        <div
-            className=' whitespace-pre w-[300px] inline-block mt-1 p-2 cursor-pointer hover:scale-105 ease-in-out duration-300 rounded-2xl'    
-        >
-            <Card
-                imgSrc="https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Zunge_raus.JPG/800px-Zunge_raus.JPG"
-                className=""
-            >
-                <a href="#">
-                    <h5 className="text-xs whitespace-pre-wrap font-semibold tracking-tight text-gray-900 dark:text-white">
-                    <p>
-                        Apple Watch Series 7 GPS, Aluminium Case, Starlight Sport
-                    </p>
-                    </h5>
-                </a>
 
-                <div className="flex items-center justify-between">
-                    <span className="text-sm font-bold text-gray-900 dark:text-white">
-                    $599
-                    </span>
-                    <a
-                    className="rounded-lg bg-cyan-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-cyan-800 focus:outline-none focus:ring-4 focus:ring-cyan-300 dark:bg-cyan-600 dark:hover:bg-cyan-700 dark:focus:ring-cyan-800"
-                    href="#"
-                    >
-                    <p>
-                        Add to cart
-                    </p>
-                    </a>
-                </div>
-            </Card>
-        </div>
-        <div
-            className=' whitespace-pre w-[300px] inline-block mt-1 p-2 cursor-pointer hover:scale-105 ease-in-out duration-300 rounded-2xl'    
-        >
-            <Card
-                imgSrc="https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Zunge_raus.JPG/800px-Zunge_raus.JPG"
-                className=""
-            >
-                <a href="#">
-                    <h5 className="text-xs whitespace-pre-wrap font-semibold tracking-tight text-gray-900 dark:text-white">
-                    <p>
-                        Apple Watch Series 7 GPS, Aluminium Case, Starlight Sport
-                    </p>
-                    </h5>
-                </a>
 
-                <div className="flex items-center justify-between">
-                    <span className="text-sm font-bold text-gray-900 dark:text-white">
-                    $599
-                    </span>
-                    <a
-                    className="rounded-lg bg-cyan-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-cyan-800 focus:outline-none focus:ring-4 focus:ring-cyan-300 dark:bg-cyan-600 dark:hover:bg-cyan-700 dark:focus:ring-cyan-800"
-                    href="#"
-                    >
-                    <p>
-                        Add to cart
-                    </p>
-                    </a>
-                </div>
-            </Card>
-        </div>
-    </div>
-    <div className='relative flex items-center'>
-        
-        <div
-            className=' whitespace-pre w-[300px] inline-block mt-1 p-2 cursor-pointer hover:scale-105 ease-in-out duration-300 rounded-2xl'    
-        >
-            <Card
-                imgSrc="https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Zunge_raus.JPG/800px-Zunge_raus.JPG"
-                className=""
-            >
-                <a href="#">
-                    <h5 className="text-xs whitespace-pre-wrap font-semibold tracking-tight text-gray-900 dark:text-white">
-                    <p>
-                        Apple Watch Series 7 GPS, Aluminium Case, Starlight Sport
-                    </p>
-                    </h5>
-                </a>
 
-                <div className="flex items-center justify-between">
-                    <span className="text-sm font-bold text-gray-900 dark:text-white">
-                    $599
-                    </span>
-                    <a
-                    className="rounded-lg bg-cyan-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-cyan-800 focus:outline-none focus:ring-4 focus:ring-cyan-300 dark:bg-cyan-600 dark:hover:bg-cyan-700 dark:focus:ring-cyan-800"
-                    href="#"
-                    >
-                    <p>
-                        Add to cart
-                    </p>
-                    </a>
-                </div>
-            </Card>
-        </div>
-        <div
-            className=' whitespace-pre w-[300px] inline-block mt-1 p-2 cursor-pointer hover:scale-105 ease-in-out duration-300 rounded-2xl'    
-        >
-            <Card
-                imgSrc="https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Zunge_raus.JPG/800px-Zunge_raus.JPG"
-                className=""
-            >
-                <a href="#">
-                    <h5 className="text-xs whitespace-pre-wrap font-semibold tracking-tight text-gray-900 dark:text-white">
-                    <p>
-                        Apple Watch Series 7 GPS, Aluminium Case, Starlight Sport
-                    </p>
-                    </h5>
-                </a>
-
-                <div className="flex items-center justify-between">
-                    <span className="text-sm font-bold text-gray-900 dark:text-white">
-                    $599
-                    </span>
-                    <a
-                    className="rounded-lg bg-cyan-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-cyan-800 focus:outline-none focus:ring-4 focus:ring-cyan-300 dark:bg-cyan-600 dark:hover:bg-cyan-700 dark:focus:ring-cyan-800"
-                    href="#"
-                    >
-                    <p>
-                        Add to cart
-                    </p>
-                    </a>
-                </div>
-            </Card>
-        </div>
-        <div
-            className=' whitespace-pre w-[300px] inline-block mt-1 p-2 cursor-pointer hover:scale-105 ease-in-out duration-300 rounded-2xl'    
-        >
-            <Card
-                imgSrc="https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Zunge_raus.JPG/800px-Zunge_raus.JPG"
-                className=""
-            >
-                <a href="#">
-                    <h5 className="text-xs whitespace-pre-wrap font-semibold tracking-tight text-gray-900 dark:text-white">
-                    <p>
-                        Apple Watch Series 7 GPS, Aluminium Case, Starlight Sport
-                    </p>
-                    </h5>
-                </a>
-
-                <div className="flex items-center justify-between">
-                    <span className="text-sm font-bold text-gray-900 dark:text-white">
-                    $599
-                    </span>
-                    <a
-                    className="rounded-lg bg-cyan-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-cyan-800 focus:outline-none focus:ring-4 focus:ring-cyan-300 dark:bg-cyan-600 dark:hover:bg-cyan-700 dark:focus:ring-cyan-800"
-                    href="#"
-                    >
-                    <p>
-                        Add to cart
-                    </p>
-                    </a>
-                </div>
-            </Card>
-        </div>
-        <div
-            className=' whitespace-pre w-[300px] inline-block mt-1 p-2 cursor-pointer hover:scale-105 ease-in-out duration-300 rounded-2xl'    
-        >
-            <Card
-                imgSrc="https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Zunge_raus.JPG/800px-Zunge_raus.JPG"
-                className=""
-            >
-                <a href="#">
-                    <h5 className="text-xs whitespace-pre-wrap font-semibold tracking-tight text-gray-900 dark:text-white">
-                    <p>
-                        Apple Watch Series 7 GPS, Aluminium Case, Starlight Sport
-                    </p>
-                    </h5>
-                </a>
-
-                <div className="flex items-center justify-between">
-                    <span className="text-sm font-bold text-gray-900 dark:text-white">
-                    $599
-                    </span>
-                    <a
-                    className="rounded-lg bg-cyan-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-cyan-800 focus:outline-none focus:ring-4 focus:ring-cyan-300 dark:bg-cyan-600 dark:hover:bg-cyan-700 dark:focus:ring-cyan-800"
-                    href="#"
-                    >
-                    <p>
-                        Add to cart
-                    </p>
-                    </a>
-                </div>
-            </Card>
-        </div>
     </div>
 
 

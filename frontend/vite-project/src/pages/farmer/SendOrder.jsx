@@ -8,7 +8,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Nav from "../../components/Nav";
 
 
-function ObjectFarm() {
+function ObjectFarm(props) {
 
   return (
         

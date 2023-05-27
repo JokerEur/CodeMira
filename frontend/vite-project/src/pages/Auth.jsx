@@ -1,79 +1,68 @@
 // фтраница аутентификации
 import React, { Suspense, useEffect , useState, } from "react";
-import { Link, useParams} from 'react-router-dom';
+import {BrowserRouter, Link, Route, Routes, useParams} from 'react-router-dom';
 import '../App.css';
 import '../index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Nav from "../components/Nav";
 import {Label, TextInput, Checkbox,Button} from "flowbite-react";
 import axios from 'axios';
+import AppRouted from "../components/AppRouted.jsx";
 
-
-function Auth() {
-
-const [text, setText] = useState('');
+function Auth({ handleAuth }) {
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+  });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:8000/auth', {
-        text,
-      });
-      console.log(response.data); // Log the response from the backend
+      await handleAuth(formData); // Call the handleAuth function passed from props
     } catch (error) {
       console.error(error);
     }
   };
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
   return (
-        
     <div>
-       <form className="flex flex-col gap-4">
-          <div>
-            <div className="mb-2 block">
-              <Label
-                htmlFor="email1"
-                value="Your email"
-              />
-            </div>
-            <TextInput
-              id="email1"
-              placeholder="name@flowbite.com"
-              required
-              type="email"
-              name="email"
-            value={text}
-        onChange={(e) => setText(e.target.value)}
-              
-
-            />
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        <div>
+          <div className="mb-2 block">
+            <Label htmlFor="email1" />
           </div>
-          <div>
-            <div className="mb-2 block">
-              <Label
-                htmlFor="password1"
-                value="Your password"
-              />
-            </div>
-            <TextInput
-              id="password1"
-              required
-              type="password"
-              name="password"
-
-            />
+          <TextInput
+            id="email1"
+            placeholder="name@flowbite.com"
+            required
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+          />
+        </div>
+        <div>
+          <div className="mb-2 block">
+            <Label htmlFor="password1" value="Your password" />
           </div>
-          
-          <Button type="submit">
-            Submit
-          </Button>
-        </form>
-      </div>
-        
-      
-       
-  
+          <TextInput
+            id="password1"
+            required
+            type="password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+          />
+        </div>
 
-    );
-};
+        <Button type="submit">Submit</Button>
+      </form>
+    </div>
+  );
+}
 
 export default Auth;

@@ -5,6 +5,7 @@ from backend import views
 urlpatterns = [
     path('', views.index),
     re_path('auth', views.auth),
+    re_path('all_products', views.all_products),
     path('admin/', admin.site.urls),
     path('get_item', views.get_item),
     # path('get_item_comment', views.get_item_comment),
